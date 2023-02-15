@@ -4,4 +4,3 @@ const appId = 'OnlyVeganAdmin';
 
 export {baseUrl, uploadsUrl, appId};
 
-export {baseUrl, uploadsUrl};
