@@ -1,12 +1,11 @@
-import {ButtonGroup} from '@rneui/base';
-import {Avatar, ListItem as RNEListItem} from '@rneui/themed';
 import PropTypes from 'prop-types';
-import {useContext} from 'react';
+import React, {useContext} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../context/MainContext';
 import {useMedia} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {Alert} from 'react-native';
+import {Alert, Image, StyleSheet, View} from 'react-native';
+import {Card, Text, Avatar, Layout, Divider} from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
@@ -31,34 +30,37 @@ const ListItem = ({singleMedia, navigation}) => {
     }
   };
 
+  const renderItemHeader = (headerProps, item) => (
+    <View
+      {...headerProps}
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        margin: 10,
+        justifyContent: 'space-between',
+      }}
+    >
+      <Text style={{color: '#221F2D', margin: 10}} category="h6">
+        {item.title}
+      </Text>
+      <Avatar source={require('../assets/carrot.png')}></Avatar>
+    </View>
+  );
+
   return (
-    <RNEListItem
+    <Card
       onPress={() => {
         navigation.navigate('Single', item);
       }}
+      style={styles.card}
+      header={(headerProps) => renderItemHeader(headerProps, item)}
     >
-      <Avatar size="large" source={{uri: uploadsUrl + item.thumbnails?.w160}} />
-      <RNEListItem.Content>
-        <RNEListItem.Title>{item.title}</RNEListItem.Title>
-        <RNEListItem.Subtitle numberOfLines={3}>
-          {item.description}
-        </RNEListItem.Subtitle>
-        {item.user_id === user.user_id && (
-          <ButtonGroup
-            buttons={['Modify', 'Delete']}
-            rounded
-            onPress={(index) => {
-              if (index === 0) {
-                navigation.navigate('Modify', {file: item});
-              } else {
-                doDelete();
-              }
-            }}
-          />
-        )}
-      </RNEListItem.Content>
-      <RNEListItem.Chevron />
-    </RNEListItem>
+      <Image
+        style={styles.image}
+        source={{uri: uploadsUrl + item.filename}}
+      ></Image>
+      <Text style={styles.description}>{item.description}</Text>
+    </Card>
   );
 };
 
@@ -68,3 +70,19 @@ ListItem.propTypes = {
 };
 
 export default ListItem;
+
+const styles = StyleSheet.create({
+  card: {
+    marginTop: 10,
+    backgroundColor: '#eaeaea',
+  },
+  description: {
+    paddingTop: 20,
+    color: '#221F2D',
+  },
+  image: {
+    width: 340,
+    height: 200,
+    borderRadius: 10,
+  },
+});
