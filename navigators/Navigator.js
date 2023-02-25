@@ -11,6 +11,8 @@ import Upload from '../views/Upload';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
+import {TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -54,7 +56,7 @@ const StackScreen = () => {
             component={TabScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen name="Single" component={Single}/>
           <Stack.Screen name='MyFiles' component={MyFiles} />
           <Stack.Screen name='Modify' component={Modify} />
         </>

@@ -7,6 +7,7 @@ const List = ({navigation, myFilesOnly = false}) => {
   const {mediaArray} = useMedia(myFilesOnly);
   return (
     <FlatList
+      style={{backgroundColor: '#1E1E1E'}}
       data={mediaArray}
       keyExtractor={(item, index) => index.toString()}
       renderItem={({item}) => (
