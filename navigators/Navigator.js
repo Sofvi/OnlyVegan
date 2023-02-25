@@ -1,78 +1,40 @@
-import React, {useContext} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomNavigation, BottomNavigationTab, Icon, TopNavigationAction } from '@ui-kitten/components';
 import Home from '../views/Home';
-import Profile from '../views/Profile';
-import Single from '../views/Single';
-import Login from '../views/Login';
-import {MainContext} from '../context/MainContext';
-import Upload from '../views/Upload';
-import {Icon} from '@rneui/themed';
-import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
-import {TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import Explore from '../views/Explore';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
-const TabScreen = () => {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Upload"
-        component={Upload}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
+const HomeIcon = (props) => (
+  <Icon {...props} name='home-outline'></Icon>
+);
 
-const StackScreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
-  return (
-    <Stack.Navigator>
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen
-            name="Tabs"
-            component={TabScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="Single" component={Single}/>
-          <Stack.Screen name='MyFiles' component={MyFiles} />
-          <Stack.Screen name='Modify' component={Modify} />
-        </>
-      ) : (
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
-      )}
-    </Stack.Navigator>
-  );
-};
+const MapIcon = (props) => (
+  <Icon {...props} name='map-outline'></Icon>
+);
 
-const Navigator = () => {
-  return (
-    <NavigationContainer>
-      <StackScreen />
-    </NavigationContainer>
-  );
-};
+const BottomTabBar = ({ navigation, state }) => (
+  <BottomNavigation
+    selectedIndex={state.index}
+    onSelect={index => navigation.navigate(state.routeNames[index])}>
+    <BottomNavigationTab icon={HomeIcon} title='HOME'/>
+    <BottomNavigationTab icon={MapIcon} title='EXPLORE'/>
+  </BottomNavigation>
+);
 
-export default Navigator;
+const TabNavigator = () => (
+  <Navigator tabBar={props => <BottomTabBar {...props} />}>
+    <Screen name='Home' component={Home}/>
+    <Screen name='Explore' component={Explore}/>
+  </Navigator>
+);
+
+const AppNavigator = () => (
+  <NavigationContainer>
+    <TabNavigator/>
+  </NavigationContainer>
+);
+
+export default AppNavigator;

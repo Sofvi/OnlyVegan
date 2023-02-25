@@ -1,23 +1,24 @@
 import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './context/MainContext';
-import Navigator from './navigators/Navigator';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import AppNavigator from './navigators/Navigator';
 
 const App = () => {
   return (
     <MainProvider>
-      <Navigator></Navigator>
+      <AppNavigator></AppNavigator>
       <StatusBar style="auto" />
     </MainProvider>
   );
 };
 
-//export default App;
-
 export default () => (
-    <ApplicationProvider {...eva} theme={eva.dark}>
+  <>
+  <IconRegistry icons={EvaIconsPack}></IconRegistry>
+  <ApplicationProvider {...eva} theme={eva.dark}>
       <App />
     </ApplicationProvider>
+  </>
 );
