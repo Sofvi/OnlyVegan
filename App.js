@@ -2,12 +2,8 @@ import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './context/MainContext';
 import Navigator from './navigators/Navigator';
 import * as eva from '@eva-design/eva';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  Layout,
-  Text,
-} from '@ui-kitten/components';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 const App = () => {
   return (
