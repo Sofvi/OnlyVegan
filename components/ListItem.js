@@ -1,17 +1,19 @@
 import PropTypes from 'prop-types';
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../context/MainContext';
-import {useMedia} from '../hooks/ApiHooks';
+import {useMedia, useUser} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import {Alert, Image, StyleSheet, View} from 'react-native';
-import {Card, Text, Avatar, Layout, Divider} from '@ui-kitten/components';
+import {Card, Text, Avatar, Modal, Layout, Button} from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
   const {deleteMedia} = useMedia();
   const item = singleMedia;
+  const [visible, setVisible] = React.useState(false);
 
+  /**
   const doDelete = () => {
     try {
       Alert.alert('Delete', 'this file permanently', [
@@ -29,6 +31,7 @@ const ListItem = ({singleMedia, navigation}) => {
       console.error(error);
     }
   };
+  */
 
   const renderItemHeader = (headerProps, item) => (
     <View
@@ -50,7 +53,8 @@ const ListItem = ({singleMedia, navigation}) => {
   return (
     <Card
       onPress={() => {
-        navigation.navigate('Single', item);
+        setVisible(true);
+        //navigation.navigate('Single', item);
       }}
       style={styles.card}
       header={(headerProps) => renderItemHeader(headerProps, item)}
@@ -60,6 +64,14 @@ const ListItem = ({singleMedia, navigation}) => {
         source={{uri: uploadsUrl + item.filename}}
       ></Image>
       <Text style={styles.description}>{item.description}</Text>
+      <Modal visible={visible}
+      backdropStyle={styles.backdrop}
+      onBackdropPress={() => setVisible(false)}>
+
+        <Card disabled={true}>
+          <Text>I hope this works</Text>
+        </Card>
+      </Modal>
     </Card>
   );
 };
@@ -70,6 +82,7 @@ ListItem.propTypes = {
 };
 
 export default ListItem;
+
 
 const styles = StyleSheet.create({
   card: {
@@ -85,4 +98,8 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 10,
   },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
 });
+
