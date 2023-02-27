@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef 
+// eslint-disable-next-line no-undef
 module.exports = {
     'parser': '@babel/eslint-parser',
     'env': {
@@ -6,6 +6,7 @@ module.exports = {
       'es2021': true,
       'react-native/react-native': true,
     },
+    'assets': ['./assets/fonts/'],
     'extends': [
       'google',
       'eslint:recommended',

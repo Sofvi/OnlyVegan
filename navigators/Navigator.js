@@ -9,6 +9,9 @@ import {
 } from '@ui-kitten/components';
 import Home from '../views/Home';
 import Explore from '../views/Explore';
+import Upload from '../views/Upload';
+import {HomeDrawer} from './Drawer';
+import {StyleSheet} from 'react-native';
 
 const {Navigator, Screen} = createBottomTabNavigator();
 
@@ -18,6 +21,7 @@ const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
 
 const BottomTabBar = ({navigation, state}) => (
   <BottomNavigation
+    style={styles.nav}
     selectedIndex={state.index}
     onSelect={(index) => navigation.navigate(state.routeNames[index])}
   >
@@ -26,18 +30,23 @@ const BottomTabBar = ({navigation, state}) => (
   </BottomNavigation>
 );
 
-const TabNavigator = () => (
-  <Navigator
-    screenOptions={{headerShown: false}}
-    tabBar={(props) => <BottomTabBar {...props} />}
-  >
-    <Screen name="Home" component={Home} />
-    <Screen name="Explore" component={Explore} />
-  </Navigator>
-);
-
 export const AppNavigator = () => (
   <NavigationContainer>
-    <TabNavigator />
+    <Navigator
+      screenOptions={{headerShown: false}}
+      tabBar={(props) => <BottomTabBar {...props} />}
+    >
+      <Screen name="Home" component={Home} />
+      <Screen name="Explore" component={Explore} />
+      <Screen name="Upload" component={Upload} />
+      <Screen name="Drawer" component={HomeDrawer} />
+    </Navigator>
   </NavigationContainer>
 );
+
+const styles = StyleSheet.create ({
+  nav: {
+    fontFamily: 'Merriweather-Black',
+    backgroundColor: '#232020'
+  }
+});
