@@ -1,7 +1,11 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Button, Input} from '@rneui/themed';
+import {Card, Input} from '@rneui/themed';
+import {StyleSheet} from 'react-native';
+import {Button, Layout, Text} from '@ui-kitten/components';
+import Logo from '../assets/Logo.png';
+import {Image} from 'react-native';
 
 const RegisterForm = () => {
   // const {setIsLoggedIn} = useContext(MainContext);
@@ -46,8 +50,8 @@ const RegisterForm = () => {
   };
 
   return (
-    <Card>
-      <Card.Title>Registration Form</Card.Title>
+    <Layout style={styles.Layout}>
+      <Image source={Logo} />
       <Controller
         control={control}
         rules={{
@@ -156,10 +160,31 @@ const RegisterForm = () => {
         )}
         name="full_name"
       />
-
-      <Button title="Sign in!" onPress={handleSubmit(register)} />
-    </Card>
+      <Button style={styles.Button} onPress={handleSubmit(register)}>
+        {(evaProps) => <Text {...evaProps}>Register</Text>}
+      </Button>
+    </Layout>
   );
 };
-
+const styles = StyleSheet.create({
+  Button: {
+    padding: 24,
+    marginTop: 16,
+    margin: 15,
+    backgroundColor: 'green',
+  },
+  Image: {
+    flex: 1,
+    width: 200,
+    height: 200,
+  },
+  Layout: {
+    backgroundColor: 'grey',
+  },
+  Input: {
+    marginTop: 16,
+    margin: 10,
+    borderderRadius: 5,
+  },
+});
 export default RegisterForm;

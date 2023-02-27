@@ -1,9 +1,12 @@
 import React, {useContext} from 'react';
+import {StyleSheet} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Input, Card} from '@rneui/themed';
+import {Button, Text, Input, Card, Layout} from '@ui-kitten/components';
+import Logo from '../assets/Logo.png';
+import {Image} from 'react-native';
 
 const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -32,13 +35,14 @@ const LoginForm = () => {
   };
 
   return (
-    <Card>
-      <Card.Title>Login Form</Card.Title>
+    <Layout style={styles.Layout}>
+      <Image source={Logo} />
       <Controller
         control={control}
         rules={{required: {value: true, message: 'is required'}}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.Input}
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -54,6 +58,7 @@ const LoginForm = () => {
         rules={{required: {value: true, message: 'is required'}}}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            style={styles.Input}
             placeholder="Password"
             onBlur={onBlur}
             onChangeText={onChange}
@@ -64,9 +69,35 @@ const LoginForm = () => {
         )}
         name="password"
       />
-      <Button title="Sign in!" onPress={handleSubmit(logIn)} />
-    </Card>
+      <Button style={styles.Button} onPress={handleSubmit(logIn)}>
+        {(evaProps) => <Text {...evaProps}>Login</Text>}
+      </Button>
+      <Button style={styles.Button}>
+        {(evaProps) => <Text {...evaProps}>Register</Text>}
+      </Button>
+    </Layout>
   );
 };
 
+const styles = StyleSheet.create({
+  Button: {
+    padding: 24,
+    marginTop: 16,
+    margin: 15,
+    backgroundColor: 'green',
+  },
+  Image: {
+    flex: 1,
+    width: 200,
+    height: 200,
+  },
+  Layout: {
+    backgroundColor: 'grey',
+  },
+  Input: {
+    marginTop: 16,
+    margin: 10,
+    borderderRadius: 5,
+  },
+});
 export default LoginForm;

@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../views/Home';
@@ -11,8 +12,9 @@ import Upload from '../views/Upload';
 import {Icon} from '@rneui/themed';
 import MyFiles from '../views/MyFiles';
 import Modify from '../views/Modify';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const TabScreen = () => {
@@ -55,11 +57,11 @@ const StackScreen = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name='MyFiles' component={MyFiles} />
-          <Stack.Screen name='Modify' component={Modify} />
+          <Stack.Screen name="MyFiles" component={MyFiles} />
+          <Stack.Screen name="Modify" component={Modify} />
         </>
       ) : (
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
+        <Stack.Screen name="Äitis" component={Login}></Stack.Screen>
       )}
     </Stack.Navigator>
   );
