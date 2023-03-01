@@ -1,78 +1,80 @@
-import React, {useContext} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomNavigation,
+  BottomNavigationTab,
+  Icon,
+  TopNavigationAction,
+} from '@ui-kitten/components';
 import Home from '../views/Home';
-import Profile from '../views/Profile';
-import Single from '../views/Single';
-import Login from '../views/Login';
-import {MainContext} from '../context/MainContext';
+import Explore from '../views/Explore';
 import Upload from '../views/Upload';
-import {Icon} from '@rneui/themed';
-import MyFiles from '../views/MyFiles';
-import Modify from '../views/Modify';
-import {TopNavigation, TopNavigationAction } from '@ui-kitten/components';
-import { StyleSheet } from 'react-native';
+import {HomeDrawer} from './Drawer';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import Profile from '../views/Profile';
+import Settings from '../views/Settings';
 
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
+const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
 
-const TabScreen = () => {
+const Drawer = createDrawerNavigator();
+export const RootNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Upload"
-        component={Upload}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
-        }}
-      />
-    </Tab.Navigator>
+    <Drawer.Navigator
+      screenOptions={{headerShown: false, drawerPosition: 'right'}}
+      drawerType="slide"
+      drawerContent={(props) => <HomeDrawer {...props} />}
+    >
+      <Drawer.Screen name="Home" component={TabNavigator} />
+      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Settings" component={Settings} />
+    </Drawer.Navigator>
   );
 };
 
-const StackScreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
+const BottomTab = createBottomTabNavigator();
+const TabNavigator = () => (
+  <BottomTab.Navigator
+    screenOptions={{headerShown: false}}
+    tabBar={(props) => <BottomTabBar {...props} />}
+  >
+    <BottomTab.Screen name="Home" component={Home} />
+    <BottomTab.Screen name="Explore" component={Explore} />
+    <BottomTab.Screen name="Upload" component={Upload} />
+  </BottomTab.Navigator>
+);
+
+const BottomTabBar = ({navigation, state}) => {
+  const onSelect = (index) => {
+    navigation.navigate(state.routeNames[index]);
+  };
+
   return (
-    <Stack.Navigator>
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen
-            name="Tabs"
-            component={TabScreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="Single" component={Single}/>
-          <Stack.Screen name='MyFiles' component={MyFiles} />
-          <Stack.Screen name='Modify' component={Modify} />
-        </>
-      ) : (
-        <Stack.Screen name="Login" component={Login}></Stack.Screen>
-      )}
-    </Stack.Navigator>
+    <SafeAreaView>
+      <BottomNavigation
+        style={styles.nav}
+        selectedIndex={state.index}
+        onSelect={onSelect}
+      >
+        <BottomNavigationTab title="Home" icon={HomeIcon} />
+        <BottomNavigationTab title="Explore" icon={MapIcon} />
+      </BottomNavigation>
+    </SafeAreaView>
   );
 };
 
-const Navigator = () => {
-  return (
-    <NavigationContainer>
-      <StackScreen />
-    </NavigationContainer>
-  );
-};
+export const AppNavigator = () => (
+  <NavigationContainer>
+    <RootNavigator />
+  </NavigationContainer>
+);
 
-export default Navigator;
+const styles = StyleSheet.create({
+  nav: {
+    fontFamily: 'Merriweather-Black',
+    backgroundColor: '#232020',
+  },
+});
