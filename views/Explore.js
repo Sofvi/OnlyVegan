@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    //fontFamily: 'AnticDidone-Regular',
+    fontFamily: 'AnticDidone-Regular',
     fontSize: 32,
     textAlign: 'center',
   },

@@ -1,17 +1,10 @@
-//import 'react-native-gesture-handler';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './context/MainContext';
+import Navigator, {AppNavigator} from './navigators/Navigator';
 import * as eva from '@eva-design/eva';
-import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {AppNavigator} from './navigators/Navigator';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import {useFonts} from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import {useCallback} from 'react';
-
-SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   return (
@@ -22,7 +15,6 @@ const App = () => {
 };
 
 export default () => {
-  /**
   const [fontsLoaded] = useFonts({
     'Karla-Bold': require('./assets/fonts/Karla-Bold.ttf'),
     'Karla-Light': require('./assets/fonts/Karla-Light.ttf'),
@@ -35,27 +27,12 @@ export default () => {
     'AnticDidone-Regular': require('./assets/fonts/AnticDidone-Regular.ttf')
   });
 
-
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }*/
-
   return (
-    <>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <IconRegistry icons={EvaIconsPack}></IconRegistry>
-        <ApplicationProvider {...eva} theme={eva.dark}>
-          <SafeAreaProvider>
-            <App></App>
-          </SafeAreaProvider>
-        </ApplicationProvider>
-      </GestureHandlerRootView>
-    </>
-  );
+  <>
+  <IconRegistry icons={EvaIconsPack}></IconRegistry>
+   <ApplicationProvider {...eva} theme={eva.dark}>
+    <App />
+  </ApplicationProvider>
+  </>
+  )
 };
