@@ -35,7 +35,14 @@ const ListItem = ({singleMedia, navigation}) => {
 
   const renderItemHeader = (headerProps, item) => (
     <View {...headerProps} style={styles.header}>
-      <Text style={{color: '#221F2D', margin: 10, fontFamily: 'Merriweather-Bold', fontSize: 16}}>
+      <Text
+        style={{
+          color: '#221F2D',
+          margin: 10,
+          fontFamily: 'Merriweather-Bold',
+          fontSize: 16,
+        }}
+      >
         {item.title}
       </Text>
       <Avatar source={require('../assets/carrot.png')}></Avatar>
@@ -91,13 +98,13 @@ const styles = StyleSheet.create({
   description: {
     paddingTop: 20,
     color: '#221F2D',
-    fontFamily: 'Karla-Regular'
+    fontFamily: 'Karla-Regular',
   },
   image: {
     width: 370,
     height: 300,
     borderRadius: 5,
-    marginLeft: -16
+    marginLeft: -16,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
