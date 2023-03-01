@@ -15,6 +15,7 @@ import {SafeAreaView, StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Profile from '../views/Profile';
+import Settings from '../views/Settings';
 
 const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
 const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
@@ -28,6 +29,8 @@ export const RootNavigator = () => {
       drawerContent={(props) => <HomeDrawer {...props} />}
     >
       <Drawer.Screen name="Home" component={TabNavigator} />
+      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 };
