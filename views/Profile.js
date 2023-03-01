@@ -5,6 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import {Button, Card, Icon, ListItem} from '@rneui/themed';
+import {Layout} from '@ui-kitten/components';
+import {Image, Text} from 'react-native';
+import carrot from '../assets/carrot.png';
+import {StyleSheet} from 'react-native';
+import List from '../components/List';
+import {MyFiles} from './MyFiles';
 
 const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
@@ -25,18 +31,21 @@ const Profile = ({navigation}) => {
   }, []);
 
   return (
-    <Card>
+    <Layout>
       <Card.Title>{user.username}</Card.Title>
-      <Card.Image source={{uri: uploadsUrl + avatar}} />
+      <Image
+        source={carrot || {uri: uploadsUrl + avatar}}
+        style={styles.Image}
+      ></Image>
       <ListItem>
-        <Icon name="email" />
-        <ListItem.Title>{user.email}</ListItem.Title>
+        <ListItem.Title style={styles.Title}>
+          {user.full_name || 'Nafisul Nazrul'}
+        </ListItem.Title>
       </ListItem>
-      <ListItem>
-        <Icon name="badge" />
-        <ListItem.Title>{user.full_name}</ListItem.Title>
-      </ListItem>
-      <Button
+      <Layout>
+        <List navigation={navigation} myFilesOnly={true} />
+      </Layout>
+      {/* <Button
         title="Logout!"
         onPress={async () => {
           console.log('Logging out!');
@@ -54,8 +63,8 @@ const Profile = ({navigation}) => {
         onPress={() => {
           navigation.navigate('MyFiles');
         }}
-      />
-    </Card>
+      /> */}
+    </Layout>
   );
 };
 
@@ -64,3 +73,16 @@ Profile.propTypes = {
 };
 
 export default Profile;
+
+const styles = StyleSheet.create({
+  Image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#1E1E1E',
+    marginLeft: '36%',
+  },
+  Title: {
+    marginLeft: '34%',
+  },
+});

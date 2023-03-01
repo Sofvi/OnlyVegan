@@ -6,7 +6,6 @@ module.exports = {
     es2021: true,
     'react-native/react-native': true,
   },
-  assets: ['./assets/fonts/'],
   extends: [
     'google',
     'eslint:recommended',

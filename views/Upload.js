@@ -20,6 +20,7 @@ import {Video} from 'expo-av';
 import {StyleSheet} from 'react-native';
 import {Image} from 'react-native';
 import carrot from '../assets/carrot.png';
+import Logo from '../assets/Logo.png';
 
 const Upload = ({navigation}) => {
   const [mediafile, setMediafile] = useState({});
@@ -143,9 +144,11 @@ const Upload = ({navigation}) => {
           <TouchableOpacity onPress={pickFile}>
             <Image
               style={styles.CardImage}
-              source={{
-                uri: mediafile.uri || 'https://placekitten.com/g/200/300',
-              }}
+              source={
+                Logo || {
+                  uri: mediafile.uri,
+                }
+              }
             ></Image>
           </TouchableOpacity>
         )}
@@ -196,7 +199,7 @@ const Upload = ({navigation}) => {
           )}
           name="description"
         />
-        <Text>How many carrots?</Text>
+        <Text style={styles.Text}>How many carrots?</Text>
         <View style={styles.Carrots}>
           <TouchableOpacity onPress={() => console.log('Clicked')}>
             <Image onP source={carrot} style={styles.Image}></Image>
@@ -214,7 +217,7 @@ const Upload = ({navigation}) => {
         <Button
           style={styles.Button}
           loading={loading}
-          disabled={!mediafile.uri || errors.title || errors.description}
+          /*  disabled={!mediafile.uri || errors.title || errors.description} */
           title="Upload"
           onPress={handleSubmit(uploadFile)}
         >
@@ -257,6 +260,12 @@ const styles = StyleSheet.create({
     width: 340,
     height: 200,
     borderRadius: 10,
+    marginLeft: '5%',
+    marginTop: 40,
+  },
+  Text: {
+    marginTop: 40,
+    marginLeft: '31%',
   },
 });
 export default Upload;
