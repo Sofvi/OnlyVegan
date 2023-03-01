@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   logo: {
-    width: 210,
-    height: 70,
+    width: 150,
+    height: 50,
     marginTop: 10,
   },
   container: {

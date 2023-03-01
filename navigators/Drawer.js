@@ -15,46 +15,19 @@ import {
 import Profile from '../views/Profile';
 import Upload from '../views/Upload';
 import Home from '../views/Home';
+import {NavigationContainer} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native';
 
-/**
-export const DrawerSimpleUsageShowcase = () => {
-
-  const [selectedIndex, setSelectedIndex] = React.useState(new IndexPath(0));
-
+export const HomeDrawer = ({navigation}) => {
   return (
-    <Drawer
-      selectedIndex={selectedIndex}
-      onSelect={index => setSelectedIndex(index)}>
-      <DrawerItem title='Users'/>
-      <DrawerItem title='Orders'/>
-      <DrawerItem title='Transactions'/>
-      <DrawerItem title='Settings'/>
-    </Drawer>
+    <SafeAreaView
+    style={{
+      flex: 1
+    }}>
+      <Drawer>
+        <DrawerItem title="Profile" />
+        <DrawerItem title="Settings" />
+      </Drawer>
+    </SafeAreaView>
   );
 };
-*/
-
-//const {Navigator, Screen} = createDrawerNavigator();
-
-const DrawerContent = (navigation, state) => (
-  <Drawer
-    selectedIndex={new IndexPath(state.index)}
-    onSelect={(index) => navigation.navigate(state.routeNames[index.row])}
-  >
-    <DrawerItem title="Profile" />
-    <DrawerItem title="Settings" />
-  </Drawer>
-);
-
-const SideMenu = createDrawerNavigator();
-
-export const HomeDrawer = () => (
-  <SideMenu.Navigator
-    useLegacyImplementation
-    drawerContent={props => <DrawerContent {...props} />}
-  >
-    <SideMenu.Screen name="Home" component={Home} />
-    <SideMenu.Screen name="Profile" component={Profile} />
-    <SideMenu.Screen name="Settings" component={Upload} />
-  </SideMenu.Navigator>
-);

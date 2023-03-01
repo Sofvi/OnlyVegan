@@ -37,11 +37,11 @@ const Home = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <TopNavigation
+        title={renderLogo}
+        alignment="center"
         style={{backgroundColor: '#232020'}}
         accessoryLeft={PostAction}
         accessoryRight={MenuAction}
-        title={renderLogo}
-        alignment="center"
       ></TopNavigation>
       <Divider />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   logo: {
-    width: 210,
-    height: 60,
+    width: 150,
+    height: 50,
     marginTop: 10,
   },
 });
