@@ -46,7 +46,7 @@ export const AppNavigator = () => (
 
 const styles = StyleSheet.create ({
   nav: {
-    fontFamily: 'Merriweather-Black',
+    //fontFamily: 'Merriweather-Black',
     backgroundColor: '#232020'
   }
 });

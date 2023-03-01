@@ -1,4 +1,5 @@
-import 'react-native-gesture-handler';
+//import 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {StatusBar} from 'expo-status-bar';
 import {MainProvider} from './context/MainContext';
 import * as eva from '@eva-design/eva';
@@ -21,6 +22,7 @@ const App = () => {
 };
 
 export default () => {
+  /**
   const [fontsLoaded] = useFonts({
     'Karla-Bold': require('./assets/fonts/Karla-Bold.ttf'),
     'Karla-Light': require('./assets/fonts/Karla-Light.ttf'),
@@ -33,6 +35,7 @@ export default () => {
     'AnticDidone-Regular': require('./assets/fonts/AnticDidone-Regular.ttf')
   });
 
+
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
       await SplashScreen.hideAsync();
@@ -41,16 +44,18 @@ export default () => {
 
   if (!fontsLoaded) {
     return null;
-  }
+  }*/
 
   return (
-  <>
-    <IconRegistry icons={EvaIconsPack}></IconRegistry>
-    <ApplicationProvider {...eva} theme={eva.dark}>
-      <SafeAreaProvider>
-        <App></App>
-      </SafeAreaProvider>
-    </ApplicationProvider>
-  </>
-  )
+    <>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <IconRegistry icons={EvaIconsPack}></IconRegistry>
+        <ApplicationProvider {...eva} theme={eva.dark}>
+          <SafeAreaProvider>
+            <App></App>
+          </SafeAreaProvider>
+        </ApplicationProvider>
+      </GestureHandlerRootView>
+    </>
+  );
 };
