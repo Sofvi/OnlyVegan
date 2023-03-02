@@ -10,6 +10,7 @@ import {Card, Text, Avatar, Modal, Layout, Button} from '@ui-kitten/components';
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
   const {deleteMedia} = useMedia();
+  const [owner, setOwner] = useState({});
   const item = singleMedia;
   const [visible, setVisible] = React.useState(false);
 
@@ -66,10 +67,14 @@ const ListItem = ({singleMedia, navigation}) => {
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
+        style={{width: '90%', height: '50%'}}
         onBackdropPress={() => setVisible(false)}
       >
-        <Card disabled={true}>
-          <Text>I hope this works</Text>
+        <Card disabled={true} style={{height: 450, backgroundColor: 'white'}}>
+          <Image
+            style={{height: 200}}
+            source={{uri: uploadsUrl + item.filename}}
+          ></Image>
         </Card>
       </Modal>
     </Card>

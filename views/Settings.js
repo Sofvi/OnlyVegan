@@ -9,7 +9,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import {useContext} from 'react';
-import {SafeAreaView, TouchableOpacity} from 'react-native';
+import {Platform, SafeAreaView, TouchableOpacity} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import PropTypes from 'prop-types';
 import {renderLogo} from './Home';
@@ -34,20 +34,28 @@ const Settings = ({navigation}) => {
         accessoryRight={MenuAction}
       ></TopNavigation>
       <Layout>
-          <Button
-            style={{margin: 20}}
-            title="Logout!"
-            onPress={async () => {
-              console.log('Logging out!');
-              setUser({});
-              setIsLoggedIn(false);
-              try {
-                await AsyncStorage.clear();
-              } catch (error) {
-                console.error('clearing asyncstorage failed', error);
+        <Button
+          style={{margin: 20}}
+          title="Logout!"
+          onPress={async () => {
+            console.log('Logging out!');
+            setUser({});
+            setIsLoggedIn(false);
+            try {
+              const asyncStorageKeys = await AsyncStorage.getAllKeys();
+              if (asyncStorageKeys.length > 0) {
+                if (Platform.OS === 'android') {
+                  await AsyncStorage.clear();
+                }
+                if (Platform.OS === 'ios') {
+                  await AsyncStorage.multiRemove(asyncStorageKeys);
+                }
               }
-            }}
-          />
+            } catch (error) {
+              console.error('clearing asyncstorage failed', error);
+            }
+          }}
+        />
       </Layout>
     </SafeAreaView>
   );

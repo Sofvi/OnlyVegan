@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
@@ -16,36 +16,48 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Profile from '../views/Profile';
 import Settings from '../views/Settings';
+import Login from '../views/Login';
+import {MainContext} from '../context/MainContext';
 
 export const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
 const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
 
 const Drawer = createDrawerNavigator();
 export const RootNavigator = () => {
+  const {isLoggedIn} = useContext(MainContext);
+
   return (
     <Drawer.Navigator
       screenOptions={{headerShown: false, drawerPosition: 'right'}}
       drawerType="slide"
       drawerContent={(props) => <HomeDrawer {...props} />}
     >
-      <Drawer.Screen name="Home" component={TabNavigator} />
-      <Drawer.Screen name="Profile" component={Profile} />
-      <Drawer.Screen name="Settings" component={Settings} />
+      {isLoggedIn ? (
+        <>
+          <Drawer.Screen name="Home" component={TabNavigator} />
+          <Drawer.Screen name="Profile" component={Profile} />
+          <Drawer.Screen name="Settings" component={Settings} />
+        </>
+      ) : (
+        <Drawer.Screen name="Login" component={Login} />
+      )}
     </Drawer.Navigator>
   );
 };
 
 const BottomTab = createBottomTabNavigator();
-const TabNavigator = () => (
-  <BottomTab.Navigator
-    screenOptions={{headerShown: false}}
-    tabBar={(props) => <BottomTabBar {...props} />}
-  >
-    <BottomTab.Screen name="Home" component={Home} />
-    <BottomTab.Screen name="Explore" component={Explore} />
-    <BottomTab.Screen name="Upload" component={Upload} />
-  </BottomTab.Navigator>
-);
+const TabNavigator = () => {
+  return (
+    <BottomTab.Navigator
+      screenOptions={{headerShown: false}}
+      tabBar={(props) => <BottomTabBar {...props} />}
+    >
+      <BottomTab.Screen name="Home" component={Home} />
+      <BottomTab.Screen name="Explore" component={Explore} />
+      <BottomTab.Screen name="Upload" component={Upload} />
+    </BottomTab.Navigator>
+  );
+};
 
 const BottomTabBar = ({navigation, state}) => {
   const onSelect = (index) => {
@@ -74,7 +86,6 @@ export const AppNavigator = () => (
 
 const styles = StyleSheet.create({
   nav: {
-    fontFamily: 'Merriweather-Black',
     backgroundColor: '#232020',
   },
 });
