@@ -49,32 +49,20 @@ const Profile = ({navigation}) => {
         accessoryRight={MenuAction}
       ></TopNavigation>
       <Layout>
-      <Card.Title>{user.username}</Card.Title>
       <Image
         source={carrot || {uri: uploadsUrl + avatar}}
         style={styles.Image}
       ></Image>
       <ListItem>
         <ListItem.Title style={styles.Title}>
-          {user.full_name || 'Nafisul Nazrul'}
+          {user.full_name}
+          {user.username}
         </ListItem.Title>
       </ListItem>
       <Layout>
         <List navigation={navigation} myFilesOnly={true} />
       </Layout>
-      {/* <Button
-        title="Logout!"
-        onPress={async () => {
-          console.log('Logging out!');
-          setUser({});
-          setIsLoggedIn(false);
-          try {
-            await AsyncStorage.clear();
-          } catch (error) {
-            console.error('clearing asyncstorage failed', error);
-          }
-        }}
-      />
+      {/*
       <Button
         title="My Files"
         onPress={() => {
@@ -102,5 +90,6 @@ const styles = StyleSheet.create({
   },
   Title: {
     marginLeft: '34%',
+    textAlign: 'center'
   },
 });

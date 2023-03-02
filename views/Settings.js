@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {DrawerActions} from '@react-navigation/native';
 import {
   Button,
+  Divider,
   Icon,
   Layout,
   Text,
@@ -33,9 +34,10 @@ const Settings = ({navigation}) => {
         style={{backgroundColor: '#232020'}}
         accessoryRight={MenuAction}
       ></TopNavigation>
-      <Layout>
+      <Divider></Divider>
+      <Layout style={{backgroundColor: '#232020', height: '100%'}}>
         <Button
-          style={{margin: 20}}
+          style={{margin: 20, marginTop: '80%', backgroundColor: '#55b71c', borderColor: '#55b71c'}}
           title="Logout!"
           onPress={async () => {
             console.log('Logging out!');
@@ -55,7 +57,9 @@ const Settings = ({navigation}) => {
               console.error('clearing asyncstorage failed', error);
             }
           }}
-        />
+        >
+          {(evaProps) => <Text {...evaProps}>Logout!</Text>}
+        </Button>
       </Layout>
     </SafeAreaView>
   );

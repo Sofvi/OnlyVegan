@@ -1,20 +1,33 @@
-import {Drawer, DrawerItem, Icon} from '@ui-kitten/components';
-import React, {useContext, useState} from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Avatar, Card, Drawer, DrawerItem, Icon} from '@ui-kitten/components';
+import React, {useContext, useEffect, useState} from 'react';
+import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import PropTypes from 'prop-types';
 import {HomeIcon} from './Navigator';
+import {useTag} from '../hooks/ApiHooks';
+import {uploadsUrl} from '../utils/variables';
 
 export const HomeDrawer = ({navigation}) => {
-  const user = useContext(MainContext);
+  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
+  const {getFilesByTag} = useTag();
+  const [avatar, setAvatar] = useState('');
 
-  const PersonIcon = (props) => (
-    <Icon {...props} name='person-outline'/>
-  );
+  const PersonIcon = (props) => <Icon {...props} name="person-outline" />;
 
-  const SettingIcon = (props) => (
-    <Icon {...props} name='settings-2-outline'/>
-  );
+  const SettingIcon = (props) => <Icon {...props} name="settings-2-outline" />;
+
+  const loadAvatar = async () => {
+    try {
+      const avatarArray = await getFilesByTag('avatar_' + user.user_id);
+      setAvatar(avatarArray.pop().filename);
+    } catch (error) {
+      console.error('user avatar fetch failed', error.message);
+    }
+  };
+
+  useEffect(() => {
+    loadAvatar();
+  }, []);
 
   return (
     <SafeAreaView
@@ -23,11 +36,10 @@ export const HomeDrawer = ({navigation}) => {
       }}
     >
       <Drawer style={styles.drawer}>
-        <DrawerItem
-          style={styles.profile}
-          //title={user.username}
-          title="User info comes here"
-        />
+        <Card style={{padding: 10}}>
+          <Avatar size='giant' source={{uri: uploadsUrl + avatar}}></Avatar>
+          <DrawerItem title={user.username}/>
+        </Card>
         <DrawerItem
           style={styles.drawerItem}
           accessoryLeft={HomeIcon}
@@ -63,15 +75,15 @@ Drawer.propTypes = {
 
 const styles = StyleSheet.create({
   drawer: {
-    backgroundColor: '#232020'
+    backgroundColor: '#232020',
   },
   profile: {
     height: 200,
-    backgroundColor: '#232020'
+    backgroundColor: '#232020',
   },
   drawerItem: {
     margin: 20,
     backgroundColor: '#232020',
-    fontSize: 20
+    fontSize: 20,
   },
 });
