@@ -51,7 +51,7 @@ const Home = ({navigation}) => {
   );
 };
 
-const renderLogo = (props) => (
+export const renderLogo = (props) => (
   <View style={styles.titleContainer}>
     <Avatar
       shape="square"

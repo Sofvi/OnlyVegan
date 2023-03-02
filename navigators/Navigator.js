@@ -17,7 +17,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import Profile from '../views/Profile';
 import Settings from '../views/Settings';
 
-const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
+export const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
 const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
 
 const Drawer = createDrawerNavigator();

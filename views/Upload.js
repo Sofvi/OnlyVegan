@@ -1,10 +1,11 @@
 import {Card} from '@rneui/themed';
-import {Button, Layout, Text, Input} from '@ui-kitten/components';
+import {Button, Layout, Text, Input, TopNavigation, TopNavigationAction, Icon, Avatar} from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
 import {
   Alert,
   Keyboard,
+  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   View,
@@ -14,13 +15,14 @@ import {useCallback, useContext, useRef, useState} from 'react';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../context/MainContext';
-import {useFocusEffect} from '@react-navigation/native';
+import {DrawerActions, useFocusEffect} from '@react-navigation/native';
 import {appId} from '../utils/variables';
 import {Video} from 'expo-av';
 import {StyleSheet} from 'react-native';
 import {Image} from 'react-native';
 import carrot from '../assets/carrot.png';
 import Logo from '../assets/Logo.png';
+import {renderLogo} from './Home';
 
 const Upload = ({navigation}) => {
   const [mediafile, setMediafile] = useState({});
@@ -29,6 +31,7 @@ const Upload = ({navigation}) => {
   const {postMedia} = useMedia();
   const {postTag} = useTag();
   const {update, setUpdate} = useContext(MainContext);
+  const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
   const {
     control,
     handleSubmit,
@@ -126,8 +129,21 @@ const Upload = ({navigation}) => {
 
   console.log('tupe', mediafile.type);
 
+  const MenuAction = () => (
+    <TopNavigationAction
+      icon={MenuIcon}
+      onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+    />
+  );
+
   return (
-    <ScrollView>
+    <SafeAreaView>
+      <TopNavigation
+        title={renderLogo}
+        alignment="center"
+        style={{backgroundColor: '#232020'}}
+        accessoryRight={MenuAction}
+      ></TopNavigation>
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         {mediafile.type === 'video' ? (
           <Video
@@ -144,11 +160,9 @@ const Upload = ({navigation}) => {
           <TouchableOpacity onPress={pickFile}>
             <Image
               style={styles.CardImage}
-              source={
-                Logo || {
-                  uri: mediafile.uri,
-                }
-              }
+              source={{
+                uri: mediafile.uri || 'https://placekitten.com/g/200/300',
+              }}
             ></Image>
           </TouchableOpacity>
         )}
@@ -167,7 +181,7 @@ const Upload = ({navigation}) => {
           render={({field: {onChange, onBlur, value}}) => (
             <Input
               style={styles.Input}
-              placeholder="Title: Title here"
+              placeholder="Title: "
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -188,7 +202,7 @@ const Upload = ({navigation}) => {
           render={({field: {onChange, onBlur, value}}) => (
             <Input
               style={styles.Input}
-              placeholder="Description: Description here"
+              placeholder="Description: "
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -211,7 +225,7 @@ const Upload = ({navigation}) => {
             <Image onP source={carrot} style={styles.Image}></Image>
           </TouchableOpacity>
         </View>
-        <Button style={styles.Button} title="Pick a file" onPress={pickFile}>
+        <Button style={styles.upperButton} title="Pick a file" onPress={pickFile}>
           {(evaProps) => <Text {...evaProps}>Pick a file</Text>}
         </Button>
         <Button
@@ -224,7 +238,7 @@ const Upload = ({navigation}) => {
           {(evaProps) => <Text {...evaProps}>Upload</Text>}
         </Button>
       </TouchableOpacity>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -233,11 +247,20 @@ Upload.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  upperButton: {
+    padding: 24,
+    marginTop: 20,
+    marginLeft: 15,
+    marginRight: 15,
+    backgroundColor: '#55b71c',
+    borderColor: '#55b71c'
+  },
   Button: {
     padding: 24,
-    marginTop: 16,
+    marginTop: 10,
     margin: 15,
-    backgroundColor: 'green',
+    backgroundColor: '#55b71c',
+    borderColor: '#55b71c'
   },
   Image: {
     width: 60,
@@ -251,10 +274,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     marginLeft: '25%',
-    marginTop: 40,
+    marginTop: 10,
   },
   Input: {
-    marginTop: 16,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    width: 340,
+    marginLeft: '5%',
+    marginTop: 10
   },
   CardImage: {
     width: 340,
@@ -264,8 +291,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   Text: {
-    marginTop: 40,
+    marginTop: '15%',
     marginLeft: '31%',
+    color: '#221F2D',
+    fontFamily: 'Karla-Regular',
   },
 });
 export default Upload;

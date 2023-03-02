@@ -4,18 +4,21 @@ import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {Button, Card, Icon, ListItem} from '@rneui/themed';
-import {Layout} from '@ui-kitten/components';
-import {Image, Text} from 'react-native';
+import {Button, Card, ListItem} from '@rneui/themed';
+import {Icon, Layout, TopNavigation, TopNavigationAction} from '@ui-kitten/components';
+import {Image, SafeAreaView, Text} from 'react-native';
 import carrot from '../assets/carrot.png';
 import {StyleSheet} from 'react-native';
 import List from '../components/List';
 import {MyFiles} from './MyFiles';
+import {renderLogo} from './Home';
+import {DrawerActions} from '@react-navigation/native';
 
 const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
+  const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
 
   const loadAvatar = async () => {
     try {
@@ -30,8 +33,22 @@ const Profile = ({navigation}) => {
     loadAvatar();
   }, []);
 
+  const MenuAction = () => (
+    <TopNavigationAction
+      icon={MenuIcon}
+      onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+    />
+  );
+
   return (
-    <Layout>
+    <SafeAreaView>
+      <TopNavigation
+        title={renderLogo}
+        alignment="center"
+        style={{backgroundColor: '#232020'}}
+        accessoryRight={MenuAction}
+      ></TopNavigation>
+      <Layout>
       <Card.Title>{user.username}</Card.Title>
       <Image
         source={carrot || {uri: uploadsUrl + avatar}}
@@ -65,6 +82,7 @@ const Profile = ({navigation}) => {
         }}
       /> */}
     </Layout>
+    </SafeAreaView>
   );
 };
 
