@@ -1,5 +1,14 @@
 import {Card} from '@rneui/themed';
-import {Button, Layout, Text, Input, TopNavigation, TopNavigationAction, Icon, Avatar} from '@ui-kitten/components';
+import {
+  Button,
+  Layout,
+  Text,
+  Input,
+  TopNavigation,
+  TopNavigationAction,
+  Icon,
+  Avatar,
+} from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -183,6 +192,7 @@ const Upload = ({navigation}) => {
               style={styles.Input}
               placeholder="Title: "
               onBlur={onBlur}
+              color="#221F2D"
               onChangeText={onChange}
               value={value}
               errorMessage={errors.title && errors.title.message}
@@ -204,6 +214,7 @@ const Upload = ({navigation}) => {
               style={styles.Input}
               placeholder="Description: "
               onBlur={onBlur}
+              color="#221F2D"
               onChangeText={onChange}
               value={value}
               errorMessage={errors.description && errors.description.message}
@@ -225,7 +236,11 @@ const Upload = ({navigation}) => {
             <Image onP source={carrot} style={styles.Image}></Image>
           </TouchableOpacity>
         </View>
-        <Button style={styles.upperButton} title="Pick a file" onPress={pickFile}>
+        <Button
+          style={styles.upperButton}
+          title="Pick a file"
+          onPress={pickFile}
+        >
           {(evaProps) => <Text {...evaProps}>Pick a file</Text>}
         </Button>
         <Button
@@ -253,14 +268,14 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     backgroundColor: '#55b71c',
-    borderColor: '#55b71c'
+    borderColor: '#55b71c',
   },
   Button: {
     padding: 24,
     marginTop: 10,
     margin: 15,
     backgroundColor: '#55b71c',
-    borderColor: '#55b71c'
+    borderColor: '#55b71c',
   },
   Image: {
     width: 60,
@@ -281,7 +296,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     width: 340,
     marginLeft: '5%',
-    marginTop: 10
+    marginTop: 10,
   },
   CardImage: {
     width: 340,
