@@ -8,5 +8,5 @@ Frontend:
 - [UI Kitten](https://akveo.github.io/react-native-ui-kitten/) as UI Library
 - React
 ## Contributors
-- Suvi Laitinen
-- Nafisul Nazrul
+- [Suvi Laitinen](https://github.com/Sofvi)
+- [Nafisul Nazrul](https://github.com/nafitus)
