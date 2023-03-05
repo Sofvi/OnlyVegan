@@ -142,17 +142,17 @@ const ListItem = ({singleMedia, navigation}) => {
               onPress={likeFile}
             />
           )}
-          <Text style={{fontSize: 18}}>{likes.length}</Text>
+          <Text style={{fontSize: 20}}>{likes.length}</Text>
         </Layout>
       </Layout>
 
       <Modal
         visible={visible}
         backdropStyle={styles.backdrop}
-        style={{width: '90%', height: '50%'}}
+        style={{width: '90%', height: '55%'}}
         onBackdropPress={() => setVisible(false)}
       >
-        <Card disabled={true} style={{height: 450, backgroundColor: 'white'}}>
+        <Card disabled={true} style={{height: 520}}>
           <Layout
             style={{
               width: 350,
@@ -162,7 +162,7 @@ const ListItem = ({singleMedia, navigation}) => {
             }}
           >
             <Image
-              style={{height: 200}}
+              style={{height: 300}}
               source={{uri: uploadsUrl + item.filename}}
             ></Image>
             <Layout style={styles.layout}>
@@ -178,7 +178,7 @@ const ListItem = ({singleMedia, navigation}) => {
               <Text style={styles.text}>{item.time_added}</Text>
             </Layout>
             {item.user_id === user.user_id && (
-              <Button style={{marginTop: 70, backgroundColor: 'red', borderColor: 'red'}} onPress={(index) => {
+              <Button style={{marginTop: 50, backgroundColor: 'red', borderColor: 'red'}} onPress={(index) => {
                 doDelete()}}>
                 Delete post
               </Button>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 370,
-    height: 300,
+    height: 220,
     borderRadius: 5,
     marginLeft: -16,
   },
@@ -243,6 +243,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   likes: {
+    width: 80,
+    justifyContent: 'center',
     borderRadius: 15,
     backgroundColor: 'pink',
     flexDirection: 'row',
@@ -250,6 +252,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   likeButton: {
+    width: 50,
+    height: 50,
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     marginRight: -10,
