@@ -34,7 +34,7 @@ export const RootNavigator = () => {
     >
       {isLoggedIn ? (
         <>
-          <Drawer.Screen name="Home" component={TabNavigator} />
+          <Drawer.Screen name="TabNav" component={TabNavigator} />
           <Drawer.Screen name="Profile" component={Profile} />
           <Drawer.Screen name="Settings" component={Settings} />
         </>
@@ -65,7 +65,6 @@ const BottomTabBar = ({navigation, state}) => {
   };
 
   return (
-    <SafeAreaView>
       <BottomNavigation
         style={styles.nav}
         selectedIndex={state.index}
@@ -74,7 +73,7 @@ const BottomTabBar = ({navigation, state}) => {
         <BottomNavigationTab title="Home" icon={HomeIcon} />
         <BottomNavigationTab title="Explore" icon={MapIcon} />
       </BottomNavigation>
-    </SafeAreaView>
+
   );
 };
 
@@ -86,6 +85,8 @@ export const AppNavigator = () => (
 
 const styles = StyleSheet.create({
   nav: {
+    marginTop: -35,
     backgroundColor: '#232020',
+    height: 70
   },
 });
