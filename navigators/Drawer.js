@@ -33,12 +33,13 @@ export const HomeDrawer = ({navigation}) => {
     <SafeAreaView
       style={{
         flex: 1,
+        marginBottom: -40,
       }}
     >
       <Drawer style={styles.drawer}>
-        <Card style={{padding: 10}}>
+        <Card style={{backgroundColor: '#55b71c', alignItems: 'center'}}>
           <Avatar size='giant' source={{uri: uploadsUrl + avatar}}></Avatar>
-          <DrawerItem title={user.username}/>
+          <DrawerItem style={{backgroundColor: '#55b71c', padding: 10}} title={user.username}/>
         </Card>
         <DrawerItem
           style={styles.drawerItem}
@@ -75,10 +76,6 @@ Drawer.propTypes = {
 
 const styles = StyleSheet.create({
   drawer: {
-    backgroundColor: '#232020',
-  },
-  profile: {
-    height: 200,
     backgroundColor: '#232020',
   },
   drawerItem: {

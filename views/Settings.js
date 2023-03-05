@@ -34,7 +34,7 @@ const Settings = ({navigation}) => {
         style={{backgroundColor: '#232020'}}
         accessoryRight={MenuAction}
       ></TopNavigation>
-      <Divider></Divider>
+      <Divider style={{backgroundColor: '#55b71c'}}></Divider>
       <Layout style={{backgroundColor: '#232020', height: '100%'}}>
         <Button
           style={{margin: 20, marginTop: '80%', backgroundColor: '#55b71c', borderColor: '#55b71c'}}

@@ -17,9 +17,12 @@ import {
 } from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
-  const {user} = useContext(MainContext);
+  const {user, setUpdate, update} = useContext(MainContext);
   const item = singleMedia;
   const [likes, setLikes] = useState([]);
+  const {deleteMedia} = useMedia();
+  const {getUserById} = useUser();
+  const [owner, setOwner] = useState({});
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [visible, setVisible] = React.useState(false);
   const {getFavoritesByFileId, postFavourite, deleteFavourite} = useFavourite();
@@ -29,6 +32,13 @@ const ListItem = ({singleMedia, navigation}) => {
   const PersonIcon = (props) => <Icon {...props} name="person-outline" />;
   const LikeIcon = (props) => <Icon {...props} name="heart-outline" />;
   const HeartIcon = (props) => <Icon {...props} name="heart" />;
+
+  const getOwner = async () => {
+    const token = await AsyncStorage.getItem('userToken');
+    const owner = await getUserById(item.user_id, token);
+    console.log(owner);
+    setOwner(owner);
+  };
 
   const getLikes = async () => {
     const likes = await getFavoritesByFileId(item.file_id);
@@ -61,8 +71,27 @@ const ListItem = ({singleMedia, navigation}) => {
     }
   };
 
+  const doDelete = () => {
+    try {
+      Alert.alert('Delete', 'This action will delete this file permanently', [
+        {text: 'Cancel'},
+        {
+          text: 'OK',
+          onPress: async () => {
+            const token = await AsyncStorage.getItem('userToken');
+            const response = await deleteMedia(item.file_id, token);
+            response && setUpdate(!update);
+          },
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getLikes();
+    getOwner();
   }, []);
 
   const renderItemHeader = (headerProps, item) => (
@@ -139,12 +168,18 @@ const ListItem = ({singleMedia, navigation}) => {
             </Layout>
             <Layout style={styles.layout}>
               <Button style={styles.icon} accessoryLeft={PersonIcon}></Button>
-              <Text style={styles.text}>{item.user_id}</Text>
+              <Text style={styles.text}>{owner.username}</Text>
             </Layout>
             <Layout style={styles.layout}>
               <Button style={styles.icon} accessoryLeft={ClockIcon}></Button>
               <Text style={styles.text}>{item.time_added}</Text>
             </Layout>
+            {item.user_id === user.user_id && (
+              <Button style={{marginTop: 70, backgroundColor: 'red', borderColor: 'red'}} onPress={(index) => {
+                doDelete()}}>
+                Delete post
+              </Button>
+            )}
           </Layout>
         </Card>
       </Modal>
@@ -202,19 +237,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   likes: {
     borderRadius: 15,
     backgroundColor: 'pink',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: 10
+    paddingRight: 10,
   },
   likeButton: {
     backgroundColor: 'transparent',
     borderColor: 'transparent',
     marginRight: -10,
-    marginLeft: -10
+    marginLeft: -10,
   },
 });

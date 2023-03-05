@@ -24,7 +24,7 @@ const Explore = ({}) => {
         title={renderLogo}
         alignment="center"
       ></TopNavigation>
-      <Divider />
+      <Divider style={{backgroundColor: '#55b71c'}}/>
       <Layout style={styles.container}>
         <ButtonGroup>
           <ImageBackground
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'AnticDidone-Regular',
-    fontSize: 32,
+    fontSize: 28,
     textAlign: 'center',
   },
 });

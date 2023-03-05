@@ -43,7 +43,7 @@ const Home = ({navigation}) => {
         accessoryLeft={PostAction}
         accessoryRight={MenuAction}
       ></TopNavigation>
-      <Divider />
+      <Divider style={{backgroundColor: '#55b71c'}} />
       <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <List navigation={navigation} />
       </Layout>
