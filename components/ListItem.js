@@ -25,7 +25,8 @@ const ListItem = ({singleMedia, navigation}) => {
   const [owner, setOwner] = useState({});
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [visible, setVisible] = React.useState(false);
-  const {getFavoritesByFileId, postFavourite, deleteFavourite} = useFavourite();
+  const {getFavouritesByFileId, postFavourite, deleteFavourite} =
+    useFavourite();
 
   const ClockIcon = (props) => <Icon {...props} name="clock-outline"></Icon>;
   const PinIcon = (props) => <Icon {...props} name="pin-outline"></Icon>;
@@ -41,7 +42,7 @@ const ListItem = ({singleMedia, navigation}) => {
   };
 
   const getLikes = async () => {
-    const likes = await getFavoritesByFileId(item.file_id);
+    const likes = await getFavouritesByFileId(item.file_id);
     setLikes(likes);
     for (const like of likes) {
       if (like.user_id === user.user_id) {
@@ -54,16 +55,18 @@ const ListItem = ({singleMedia, navigation}) => {
   const likeFile = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      await postFavourite(file_id, token);
+      await postFavourite(item.file_id, token);
       setUserLikesIt(true);
       getLikes();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const dislikeFile = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      await deleteFavourite(fileId, token);
+      await deleteFavourite(item.file_id, token);
       setUserLikesIt(false);
       getLikes();
     } catch (error) {
@@ -129,13 +132,13 @@ const ListItem = ({singleMedia, navigation}) => {
           {userLikesIt ? (
             <Button
               style={styles.likeButton}
-              accessoryLeft={HeartIcon}
+              accessoryRight={HeartIcon}
               onPress={dislikeFile}
             />
           ) : (
             <Button
               style={styles.likeButton}
-              accessoryLeft={LikeIcon}
+              accessoryRight={LikeIcon}
               onPress={likeFile}
             />
           )}
