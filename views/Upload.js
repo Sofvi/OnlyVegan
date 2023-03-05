@@ -1,5 +1,13 @@
 import {Card} from '@rneui/themed';
-import {Button, Layout, Text, Input} from '@ui-kitten/components';
+import {
+  Button,
+  Layout,
+  Text,
+  Input,
+  Drawer,
+  DrawerItem,
+  IndexPath,
+} from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
 import {
@@ -199,6 +207,13 @@ const Upload = ({navigation}) => {
           )}
           name="description"
         />
+        <Text>Select a tag</Text>
+        <Drawer>
+          <DrawerItem title="Vegan" />
+          <DrawerItem title="Lactose free" />
+          <DrawerItem title="Some other " />
+          <DrawerItem title="more other" />
+        </Drawer>
         <Text style={styles.Text}>How many carrots?</Text>
         <View style={styles.Carrots}>
           <TouchableOpacity onPress={() => console.log('Clicked')}>
