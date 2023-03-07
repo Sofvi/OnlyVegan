@@ -191,13 +191,13 @@ const ListItem = ({singleMedia, navigation}) => {
           </Text>
           <View style={styles.carrots}>
             <TouchableOpacity onPress={rateFile}>
-              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+              <Image source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
             <TouchableOpacity onPress={rateFile2}>
-              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+              <Image source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
             <TouchableOpacity onPress={rateFile3}>
-              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+              <Image source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
           </View>
           <Text>{getRatingValue()}</Text>
