@@ -6,14 +6,7 @@ import {useFavourite, useMedia, useUser, useRating} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import carrot from '../assets/carrot.png';
 import {Alert, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {
-  Card,
-  Text,
-  Modal,
-  Layout,
-  Button,
-  Icon,
-} from '@ui-kitten/components';
+import {Card, Text, Modal, Layout, Button, Icon} from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
@@ -34,8 +27,10 @@ const ListItem = ({singleMedia, navigation}) => {
   const ClockIcon = (props) => <Icon {...props} name="clock-outline"></Icon>;
   const PinIcon = (props) => <Icon {...props} name="pin-outline"></Icon>;
   const PersonIcon = (props) => <Icon {...props} name="person-outline" />;
-  const LikeIcon = (props) => <Icon {...props} name="heart-outline" fill='red'/>;
-  const HeartIcon = (props) => <Icon {...props} name="heart" fill='red'/>;
+  const LikeIcon = (props) => (
+    <Icon {...props} name="heart-outline" fill="red" />
+  );
+  const HeartIcon = (props) => <Icon {...props} name="heart" fill="red" />;
   const ArrowIcon = (props) => (
     <Icon {...props} name="arrow-ios-downward" fill="black" />
   );
@@ -82,12 +77,12 @@ const ListItem = ({singleMedia, navigation}) => {
 
   const getRatings = async () => {
     const ratings = await getRatingsByFileId(item.file_id);
-    console.log(item.file_id)
-    console.log(ratings)
+    console.log(item.file_id);
+    console.log(ratings);
     setRatings(ratings);
     for (const rate of ratings) {
       if (rate.user_id === user.user_id) {
-       // setUserRatesIt(true);
+        // setUserRatesIt(true);
         break;
       }
     }
@@ -97,9 +92,9 @@ const ListItem = ({singleMedia, navigation}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const rating = 1;
-      console.log("posting at "+item.file_id)
+      console.log('posting at ' + item.file_id);
       await postRating(item.file_id, token, rating);
-    // setUserRatesIt(true);
+      // setUserRatesIt(true);
       getRatings();
     } catch (error) {
       console.log(error);
@@ -109,9 +104,9 @@ const ListItem = ({singleMedia, navigation}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const rating = 2;
-      console.log("posting at "+item.file_id)
+      console.log('posting at ' + item.file_id);
       await postRating(item.file_id, token, rating);
-    // setUserRatesIt(true);
+      // setUserRatesIt(true);
       getRatings();
     } catch (error) {
       console.log(error);
@@ -121,9 +116,9 @@ const ListItem = ({singleMedia, navigation}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const rating = 3;
-      console.log("posting at "+item.file_id)
+      console.log('posting at ' + item.file_id);
       await postRating(item.file_id, token, rating);
-    // setUserRatesIt(true);
+      // setUserRatesIt(true);
       getRatings();
     } catch (error) {
       console.log(error);
@@ -147,11 +142,13 @@ const ListItem = ({singleMedia, navigation}) => {
       console.error(error);
     }
   };
+
   const getRatingValue = () => {
-    if(ratings[0]!=null){
-      return ratings[0].rating
+    if (ratings[0] != null) {
+      return ratings[0].rating;
+    } else {
+      return 0;
     }
-    else{return 0}
   };
 
   useEffect(() => {
@@ -162,16 +159,31 @@ const ListItem = ({singleMedia, navigation}) => {
 
   const renderItemHeader = (headerProps, item) => (
     <View {...headerProps} style={styles.header}>
-      <Text
-        style={{
-          color: '#221F2D',
-          margin: 10,
-          fontFamily: 'Merriweather-Bold',
-          fontSize: 16,
-        }}
-      >
-        {item.title}
-      </Text>
+      <Layout style={{flexDirection: 'row', backgroundColor: 'white'}}>
+        <Text
+          style={{
+            color: '#221F2D',
+            margin: 10,
+            fontFamily: 'Merriweather-Bold',
+            fontSize: 16,
+          }}
+        >
+          {item.title}
+        </Text>
+        <Image source={carrot} style={{width: 35, height: 35, justifyContent: 'center', marginLeft: '-5%'}}></Image>
+        <Text
+          style={{
+            color: '#221F2D',
+            marginTop: 12,
+            marginLeft: -5,
+            fontFamily: 'Merriweather-Regular',
+            fontSize: 14,
+          }}
+        >
+          {getRatingValue()}
+        </Text>
+      </Layout>
+
       {item.user_id === user.user_id && (
         <Button
           style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
@@ -189,6 +201,7 @@ const ListItem = ({singleMedia, navigation}) => {
           <Text style={{alignSelf: 'center'}}>
             How many carrots would you give?
           </Text>
+          <Text style={{fontSize: 11, alignSelf: 'center'}}>Please notice you can only do this once.</Text>
           <View style={styles.carrots}>
             <TouchableOpacity onPress={rateFile}>
               <Image source={carrot} style={styles.singleCarrot}></Image>
@@ -200,7 +213,23 @@ const ListItem = ({singleMedia, navigation}) => {
               <Image source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
           </View>
-          <Text>{getRatingValue()}</Text>
+          <Text style={{alignSelf: 'center'}}>
+            You gave a rating of {getRatingValue()} carrots
+          </Text>
+          {item.user_id === user.user_id && (
+            <Button
+              style={{
+                marginTop: '100%',
+                backgroundColor: 'red',
+                borderColor: 'red',
+              }}
+              onPress={(index) => {
+                doDelete();
+              }}
+            >
+              Delete post
+            </Button>
+          )}
         </Card>
       </Modal>
     </View>
@@ -222,22 +251,22 @@ const ListItem = ({singleMedia, navigation}) => {
       <Layout style={styles.content}>
         <Text style={styles.description}>{item.description}</Text>
         {item.user_id != user.user_id && (
-        <Layout style={styles.likes}>
-          {userLikesIt ? (
-            <Button
-              style={styles.likeButton}
-              accessoryRight={HeartIcon}
-              onPress={dislikeFile}
-            />
-          ) : (
-            <Button
-              style={styles.likeButton}
-              accessoryRight={LikeIcon}
-              onPress={likeFile}
-            />
-          )}
-          <Text style={{fontSize: 20, color: '#221F2D'}}>{likes.length}</Text>
-        </Layout>
+          <Layout style={styles.likes}>
+            {userLikesIt ? (
+              <Button
+                style={styles.likeButton}
+                accessoryRight={HeartIcon}
+                onPress={dislikeFile}
+              />
+            ) : (
+              <Button
+                style={styles.likeButton}
+                accessoryRight={LikeIcon}
+                onPress={likeFile}
+              />
+            )}
+            <Text style={{fontSize: 20, color: '#221F2D'}}>{likes.length}</Text>
+          </Layout>
         )}
       </Layout>
 
@@ -272,20 +301,6 @@ const ListItem = ({singleMedia, navigation}) => {
               <Button style={styles.icon} accessoryLeft={ClockIcon}></Button>
               <Text style={styles.text}>{item.time_added}</Text>
             </Layout>
-            {item.user_id === user.user_id && (
-              <Button
-                style={{
-                  marginTop: 50,
-                  backgroundColor: 'red',
-                  borderColor: 'red',
-                }}
-                onPress={(index) => {
-                  doDelete();
-                }}
-              >
-                Delete post
-              </Button>
-            )}
           </Layout>
         </Card>
       </Modal>
