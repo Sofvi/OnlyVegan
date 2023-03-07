@@ -3,18 +3,17 @@ import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import PropTypes from 'prop-types';
-import {HomeIcon} from './Navigator';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 
 export const HomeDrawer = ({navigation}) => {
-  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
+  const {user} = useContext(MainContext);
   const {getFilesByTag} = useTag();
   const [avatar, setAvatar] = useState('');
 
-  const PersonIcon = (props) => <Icon {...props} name="person-outline" />;
-
-  const SettingIcon = (props) => <Icon {...props} name="settings-2-outline" />;
+  const PersonIcon = (props) => <Icon {...props} name="person-outline" width={35} height={35} fill='white'/>;
+  const HomeIcon = (props) => <Icon {...props} name="home-outline" width={35} height={35} fill='white'/>;
+  const SettingIcon = (props) => <Icon {...props} name="settings-2-outline" width={35} height={35} fill='white'/>;
 
   const loadAvatar = async () => {
     try {

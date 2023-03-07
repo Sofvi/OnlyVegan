@@ -13,10 +13,8 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import {Image, SafeAreaView, Text} from 'react-native';
-import carrot from '../assets/carrot.png';
 import {StyleSheet} from 'react-native';
 import List from '../components/List';
-import {MyFiles} from './MyFiles';
 import {renderLogo} from './Home';
 import {DrawerActions} from '@react-navigation/native';
 

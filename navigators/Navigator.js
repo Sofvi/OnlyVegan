@@ -5,21 +5,19 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
-  TopNavigationAction,
 } from '@ui-kitten/components';
 import Home from '../views/Home';
 import Explore from '../views/Explore';
 import Upload from '../views/Upload';
 import {HomeDrawer} from './Drawer';
-import {SafeAreaView, StyleSheet} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {StyleSheet} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import Profile from '../views/Profile';
 import Settings from '../views/Settings';
 import Login from '../views/Login';
 import {MainContext} from '../context/MainContext';
 
-export const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
+const HomeIcon = (props) => <Icon {...props} name="home-outline"></Icon>;
 const MapIcon = (props) => <Icon {...props} name="map-outline"></Icon>;
 
 const Drawer = createDrawerNavigator();
@@ -37,6 +35,7 @@ export const RootNavigator = () => {
           <Drawer.Screen name="TabNav" component={TabNavigator} />
           <Drawer.Screen name="Profile" component={Profile} />
           <Drawer.Screen name="Settings" component={Settings} />
+          <Drawer.Screen name='Upload' component={Upload} />
         </>
       ) : (
         <Drawer.Screen name="Login" component={Login} />
@@ -54,7 +53,6 @@ const TabNavigator = () => {
     >
       <BottomTab.Screen name="Home" component={Home} />
       <BottomTab.Screen name="Explore" component={Explore} />
-      <BottomTab.Screen name="Upload" component={Upload} />
     </BottomTab.Navigator>
   );
 };

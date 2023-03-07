@@ -1,13 +1,11 @@
-import {Card} from '@rneui/themed';
 import {
   Button,
-  Layout,
   Text,
   Input,
   TopNavigation,
   TopNavigationAction,
   Icon,
-  Avatar,
+  Divider,
 } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
 import {Controller, useForm} from 'react-hook-form';
@@ -15,7 +13,6 @@ import {
   Alert,
   Keyboard,
   SafeAreaView,
-  ScrollView,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -30,7 +27,6 @@ import {Video} from 'expo-av';
 import {StyleSheet} from 'react-native';
 import {Image} from 'react-native';
 import carrot from '../assets/carrot.png';
-import Logo from '../assets/Logo.png';
 import {renderLogo} from './Home';
 
 const Upload = ({navigation}) => {
@@ -153,6 +149,7 @@ const Upload = ({navigation}) => {
         style={{backgroundColor: '#232020'}}
         accessoryRight={MenuAction}
       ></TopNavigation>
+      <Divider style={{backgroundColor: '#55b71c'}}/>
       <TouchableOpacity onPress={() => Keyboard.dismiss()} activeOpacity={1}>
         {mediafile.type === 'video' ? (
           <Video
@@ -169,9 +166,7 @@ const Upload = ({navigation}) => {
           <TouchableOpacity onPress={pickFile}>
             <Image
               style={styles.CardImage}
-              source={{
-                uri: mediafile.uri || 'https://placekitten.com/g/200/300',
-              }}
+              source={{uri: mediafile.uri}}
             ></Image>
           </TouchableOpacity>
         )}
@@ -224,18 +219,7 @@ const Upload = ({navigation}) => {
           )}
           name="description"
         />
-        <Text style={styles.Text}>How many carrots?</Text>
-        <View style={styles.Carrots}>
-          <TouchableOpacity onPress={() => console.log('Clicked')}>
-            <Image onP source={carrot} style={styles.Image}></Image>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Clicked')}>
-            <Image onP source={carrot} style={styles.Image}></Image>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Clicked')}>
-            <Image onP source={carrot} style={styles.Image}></Image>
-          </TouchableOpacity>
-        </View>
+
         <Button
           style={styles.upperButton}
           title="Pick a file"

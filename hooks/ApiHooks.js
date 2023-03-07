@@ -23,12 +23,12 @@ const useMedia = (myFilesOnly) => {
       let json = await useTag().getFilesByTag(appId);
       // keep users files if MyFilesOnly
       if (myFilesOnly) {
-        json = json.filter((file)=>{
+        json = json.filter((file) => {
           if (file.user_id === user.user_id) {
             return file;
           }
         });
-      };
+      }
 
       json.reverse();
       const media = await Promise.all(
@@ -214,9 +214,6 @@ const useFavourite = () => {
       throw new Error('getFavouriterByFileId error, ' + error.message);
     }
   };
-  const getFavouritesByUser = async (token) => {
-    // TODO: implement this
-  };
   const deleteFavourite = async (fileId, token) => {
     const options = {
       method: 'delete',
@@ -234,9 +231,36 @@ const useFavourite = () => {
   return {
     postFavourite,
     getFavouritesByFileId,
-    getFavouritesByUser,
     deleteFavourite,
   };
 };
 
-export {useMedia, useAuthentication, useUser, useTag, useFavourite};
+const useRating = () => {
+  const getRatingsByFileId = async (fileId) => {
+    try {
+      return await doFetch(baseUrl + 'ratings/file/' + fileId);
+    } catch (error) {
+      throw new Error('getRatingsByFileId error, ' + error.message);
+    }
+  };
+
+  const postRating = async (fileId, token) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({file_id: fileId}),
+    };
+    try {
+      return await doFetch(baseUrl + 'ratings', options);
+    } catch (error) {
+      throw new Error('postRating: ' + error.message);
+    }
+  };
+
+  return {postRating, getRatingsByFileId};
+};
+
+export {useMedia, useAuthentication, useUser, useTag, useFavourite, useRating};

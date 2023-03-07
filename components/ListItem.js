@@ -2,37 +2,43 @@ import PropTypes from 'prop-types';
 import React, {useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../context/MainContext';
-import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useMedia, useUser, useRating} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {Alert, Image, StyleSheet, View} from 'react-native';
+import carrot from '../assets/carrot.png';
+import {Alert, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   Card,
   Text,
-  Avatar,
   Modal,
   Layout,
   Button,
   Icon,
-  ModalService,
 } from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
   const item = singleMedia;
   const [likes, setLikes] = useState([]);
+  const [ratings, setRatings] = useState([]);
   const {deleteMedia} = useMedia();
   const {getUserById} = useUser();
   const [owner, setOwner] = useState({});
   const [userLikesIt, setUserLikesIt] = useState(false);
+  const [setUserRatesIt] = useState(false);
   const [visible, setVisible] = React.useState(false);
+  const [visibleModal, setVisibleModal] = React.useState(false);
   const {getFavouritesByFileId, postFavourite, deleteFavourite} =
     useFavourite();
+  const {postRating, getRatingsByFileId} = useRating();
 
   const ClockIcon = (props) => <Icon {...props} name="clock-outline"></Icon>;
   const PinIcon = (props) => <Icon {...props} name="pin-outline"></Icon>;
   const PersonIcon = (props) => <Icon {...props} name="person-outline" />;
-  const LikeIcon = (props) => <Icon {...props} name="heart-outline" />;
-  const HeartIcon = (props) => <Icon {...props} name="heart" />;
+  const LikeIcon = (props) => <Icon {...props} name="heart-outline" fill='red'/>;
+  const HeartIcon = (props) => <Icon {...props} name="heart" fill='red'/>;
+  const ArrowIcon = (props) => (
+    <Icon {...props} name="arrow-ios-downward" fill="black" />
+  );
 
   const getOwner = async () => {
     const token = await AsyncStorage.getItem('userToken');
@@ -74,6 +80,29 @@ const ListItem = ({singleMedia, navigation}) => {
     }
   };
 
+  const getRatings = async () => {
+    const ratings = await getRatingsByFileId(item.file_id);
+    setRatings(ratings);
+    for (const rate of ratings) {
+      if (rate.user_id === user.user_id) {
+        setUserRatesIt(true);
+        break;
+      }
+    }
+  };
+
+  const rateFile = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const rating = getRatings();
+      await postRating(item.file_id, token, rating);
+      setUserRatesIt(true);
+      getRatings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const doDelete = () => {
     try {
       Alert.alert('Delete', 'This action will delete this file permanently', [
@@ -95,6 +124,7 @@ const ListItem = ({singleMedia, navigation}) => {
   useEffect(() => {
     getLikes();
     getOwner();
+    getRatings();
   }, []);
 
   const renderItemHeader = (headerProps, item) => (
@@ -109,7 +139,37 @@ const ListItem = ({singleMedia, navigation}) => {
       >
         {item.title}
       </Text>
-      <Avatar source={require('../assets/carrot.png')}></Avatar>
+      {item.user_id === user.user_id && (
+        <Button
+          style={{backgroundColor: 'transparent', borderColor: 'transparent'}}
+          accessoryRight={ArrowIcon}
+          onPress={() => setVisibleModal(true)}
+        />
+      )}
+      <Modal
+        visible={visibleModal}
+        backdropStyle={styles.backdrop}
+        style={{width: '90%', height: '55%'}}
+        onBackdropPress={() => setVisibleModal(false)}
+      >
+        <Card disabled={true} style={{height: 520}}>
+          <Text style={{alignSelf: 'center'}}>
+            How many carrots would you give?
+          </Text>
+          <View style={styles.carrots}>
+            <TouchableOpacity onPress={() => console.log('Clicked 1')}>
+              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('Clicked 2')}>
+              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log('Clicked 3')}>
+              <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
+            </TouchableOpacity>
+          </View>
+          <Text>{ratings.length}</Text>
+        </Card>
+      </Modal>
     </View>
   );
 
@@ -128,6 +188,7 @@ const ListItem = ({singleMedia, navigation}) => {
 
       <Layout style={styles.content}>
         <Text style={styles.description}>{item.description}</Text>
+        {item.user_id != user.user_id && (
         <Layout style={styles.likes}>
           {userLikesIt ? (
             <Button
@@ -142,8 +203,9 @@ const ListItem = ({singleMedia, navigation}) => {
               onPress={likeFile}
             />
           )}
-          <Text style={{fontSize: 20}}>{likes.length}</Text>
+          <Text style={{fontSize: 20, color: '#221F2D'}}>{likes.length}</Text>
         </Layout>
+        )}
       </Layout>
 
       <Modal
@@ -178,8 +240,16 @@ const ListItem = ({singleMedia, navigation}) => {
               <Text style={styles.text}>{item.time_added}</Text>
             </Layout>
             {item.user_id === user.user_id && (
-              <Button style={{marginTop: 50, backgroundColor: 'red', borderColor: 'red'}} onPress={(index) => {
-                doDelete()}}>
+              <Button
+                style={{
+                  marginTop: 50,
+                  backgroundColor: 'red',
+                  borderColor: 'red',
+                }}
+                onPress={(index) => {
+                  doDelete();
+                }}
+              >
                 Delete post
               </Button>
             )}
@@ -244,12 +314,11 @@ const styles = StyleSheet.create({
   },
   likes: {
     width: 80,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     borderRadius: 15,
-    backgroundColor: 'pink',
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingRight: 10,
   },
   likeButton: {
     width: 50,
@@ -258,5 +327,19 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     marginRight: -10,
     marginLeft: -10,
+  },
+  carrots: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  singleCarrot: {
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
