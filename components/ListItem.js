@@ -19,7 +19,7 @@ const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
   const item = singleMedia;
   const [likes, setLikes] = useState([]);
-  const [ratings, setRatings] = useState([]);
+  const [ratings, setRatings] = useState([0]);
   const {deleteMedia} = useMedia();
   const {getUserById} = useUser();
   const [owner, setOwner] = useState({});
@@ -82,10 +82,12 @@ const ListItem = ({singleMedia, navigation}) => {
 
   const getRatings = async () => {
     const ratings = await getRatingsByFileId(item.file_id);
+    console.log(item.file_id)
+    console.log(ratings)
     setRatings(ratings);
     for (const rate of ratings) {
       if (rate.user_id === user.user_id) {
-        setUserRatesIt(true);
+       // setUserRatesIt(true);
         break;
       }
     }
@@ -94,9 +96,34 @@ const ListItem = ({singleMedia, navigation}) => {
   const rateFile = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const rating = getRatings();
+      const rating = 1;
+      console.log("posting at "+item.file_id)
       await postRating(item.file_id, token, rating);
-      setUserRatesIt(true);
+    // setUserRatesIt(true);
+      getRatings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const rateFile2 = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const rating = 2;
+      console.log("posting at "+item.file_id)
+      await postRating(item.file_id, token, rating);
+    // setUserRatesIt(true);
+      getRatings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const rateFile3 = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const rating = 3;
+      console.log("posting at "+item.file_id)
+      await postRating(item.file_id, token, rating);
+    // setUserRatesIt(true);
       getRatings();
     } catch (error) {
       console.log(error);
@@ -119,6 +146,12 @@ const ListItem = ({singleMedia, navigation}) => {
     } catch (error) {
       console.error(error);
     }
+  };
+  const getRatingValue = () => {
+    if(ratings[0]!=null){
+      return ratings[0].rating
+    }
+    else{return 0}
   };
 
   useEffect(() => {
@@ -157,17 +190,17 @@ const ListItem = ({singleMedia, navigation}) => {
             How many carrots would you give?
           </Text>
           <View style={styles.carrots}>
-            <TouchableOpacity onPress={() => console.log('Clicked 1')}>
+            <TouchableOpacity onPress={rateFile}>
               <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('Clicked 2')}>
+            <TouchableOpacity onPress={rateFile2}>
               <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('Clicked 3')}>
+            <TouchableOpacity onPress={rateFile3}>
               <Image onPress={rateFile} source={carrot} style={styles.singleCarrot}></Image>
             </TouchableOpacity>
           </View>
-          <Text>{ratings.length}</Text>
+          <Text>{getRatingValue()}</Text>
         </Card>
       </Modal>
     </View>

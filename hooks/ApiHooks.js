@@ -244,14 +244,16 @@ const useRating = () => {
     }
   };
 
-  const postRating = async (fileId, token) => {
+  const postRating = async (fileId, token,rating) => {
     const options = {
       method: 'post',
       headers: {
         'x-access-token': token,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({file_id: fileId}),
+      body: JSON.stringify({file_id: fileId,
+        rating: rating
+}),
     };
     try {
       return await doFetch(baseUrl + 'ratings', options);
