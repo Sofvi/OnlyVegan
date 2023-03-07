@@ -10,7 +10,7 @@ import {MainContext} from '../context/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {Image} from '@rneui/base';
 
-const Single = ({route}) => {
+export const Single = ({route}) => {
   const {
     title,
     description,
@@ -194,4 +194,4 @@ Single.propTypes = {
   route: PropTypes.object,
 };
 
-export default Single;
+

@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
-import {StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAuthentication} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, Text, Input, Card, Layout} from '@ui-kitten/components';
-import Logo from '../assets/Logo.png';
+import {Input} from '@rneui/themed'
+import {Button, Text, Card, Layout} from '@ui-kitten/components';
+import OV_Logo from '../assets/OV_Logo2.png';
 import {Image} from 'react-native';
 
 const LoginForm = () => {
@@ -35,47 +36,46 @@ const LoginForm = () => {
   };
 
   return (
-    <Layout style={styles.Layout}>
-      <Image source={Logo} />
-      <Controller
-        control={control}
-        rules={{required: {value: true, message: 'is required'}}}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            style={styles.Input}
-            placeholder="Username"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            errorMessage={errors.username && errors.username.message}
-            autoCapitalize="none"
-          />
-        )}
-        name="username"
-      />
-      <Controller
-        control={control}
-        rules={{required: {value: true, message: 'is required'}}}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            style={styles.Input}
-            placeholder="Password"
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            secureTextEntry={true}
-            errorMessage={errors.password && errors.password.message}
-          />
-        )}
-        name="password"
-      />
-      <Button style={styles.Button} onPress={handleSubmit(logIn)}>
-        {(evaProps) => <Text {...evaProps}>Login</Text>}
-      </Button>
-      <Button style={styles.Button}>
-        {(evaProps) => <Text {...evaProps}>Register</Text>}
-      </Button>
-    </Layout>
+    <SafeAreaView>
+      <Layout style={styles.Layout}>
+        <Image source={OV_Logo} style={styles.Image} />
+        <Controller
+          control={control}
+          rules={{required: {value: true, message: 'is required'}}}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              style={styles.Input}
+              placeholder="Username"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              errorMessage={errors.username && errors.username.message}
+              autoCapitalize="none"
+            />
+          )}
+          name="username"
+        />
+        <Controller
+          control={control}
+          rules={{required: {value: true, message: 'is required'}}}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              style={styles.Input}
+              placeholder="Password"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={true}
+              errorMessage={errors.password && errors.password.message}
+            />
+          )}
+          name="password"
+        />
+        <Button style={styles.Button} onPress={handleSubmit(logIn)}>
+          {(evaProps) => <Text {...evaProps}>Login</Text>}
+        </Button>
+      </Layout>
+    </SafeAreaView>
   );
 };
 
@@ -84,20 +84,22 @@ const styles = StyleSheet.create({
     padding: 24,
     marginTop: 16,
     margin: 15,
-    backgroundColor: 'green',
+    backgroundColor: '#55b71c',
+    borderColor: '#55b71c',
   },
   Image: {
-    flex: 1,
-    width: 200,
-    height: 200,
+    marginTop: 30,
+    marginBottom: 30,
+    alignSelf: 'center',
   },
   Layout: {
-    backgroundColor: 'grey',
+    backgroundColor: '#232020',
   },
   Input: {
-    marginTop: 16,
+    color: 'white',
+    fontSize: 16,
+    marginTop: 10,
     margin: 10,
-    borderderRadius: 5,
   },
 });
 export default LoginForm;

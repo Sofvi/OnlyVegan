@@ -23,12 +23,12 @@ const useMedia = (myFilesOnly) => {
       let json = await useTag().getFilesByTag(appId);
       // keep users files if MyFilesOnly
       if (myFilesOnly) {
-        json = json.filter((file)=>{
+        json = json.filter((file) => {
           if (file.user_id === user.user_id) {
             return file;
           }
         });
-      };
+      }
 
       json.reverse();
       const media = await Promise.all(
@@ -231,11 +231,27 @@ const useFavourite = () => {
     }
   };
 
+  const postRating = async (fileId, token, rating) => {
+    const options = {
+      method: 'post',
+      headers: {
+        'x-access-token': token,
+      },
+      body: JSON.stringify({file_id: fileId}, {Rating: rating}),
+    };
+    try {
+      return await doFetch(baseUrl + 'ratings', options);
+    } catch (error) {
+      throw new Error('ratings: ' + error.message);
+    }
+  };
+
   return {
     postFavourite,
     getFavouritesByFileId,
     getFavouritesByUser,
     deleteFavourite,
+    postRating,
   };
 };
 

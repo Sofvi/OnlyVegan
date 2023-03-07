@@ -1,24 +1,21 @@
 // eslint-disable-next-line no-undef
 module.exports = {
-  parser: '@babel/eslint-parser',
-  env: {
-    browser: true,
-    es2021: true,
-    'react-native/react-native': true,
-  },
-  extends: [
-    'google',
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
-  ],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+    'parser': '@babel/eslint-parser',
+    'env': {
+      'browser': true,
+      'es2021': true,
+      'react-native/react-native': true,
+    },
+    'assets': ['./assets/fonts/'],
+    'extends': [
+      'google',
+      'eslint:recommended',
+      'plugin:react/recommended',
+      'plugin:prettier/recommended',
+    ],
+    'globals': {
+      'Atomics': 'readonly',
+      'SharedArrayBuffer': 'readonly',
     },
     ecmaVersion: 13,
     sourceType: 'module',
