@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#232020',
   },
   drawerItem: {
-    margin: 20,
+    margin: 10,
     backgroundColor: '#232020',
     fontSize: 20,
   },

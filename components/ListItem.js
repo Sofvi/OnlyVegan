@@ -6,7 +6,15 @@ import {useFavourite, useMedia, useUser, useRating} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
 import carrot from '../assets/carrot.png';
 import {Alert, Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Card, Text, Modal, Layout, Button, Icon} from '@ui-kitten/components';
+import {
+  Card,
+  Text,
+  Modal,
+  Layout,
+  Button,
+  Icon,
+  CheckBox,
+} from '@ui-kitten/components';
 
 const ListItem = ({singleMedia, navigation}) => {
   const {user, setUpdate, update} = useContext(MainContext);
@@ -15,6 +23,10 @@ const ListItem = ({singleMedia, navigation}) => {
   const [ratings, setRatings] = useState([0]);
   const {deleteMedia} = useMedia();
   const {getUserById} = useUser();
+  const [glutenChecked, setGlutenChecked] = React.useState(false);
+  const [milkChecked, setMilkChecked] = React.useState(false);
+  const [vegeChecked, setVegeChecked] = React.useState(false);
+  const [lactoChecked, setLactoChecked] = React.useState(false);
   const [owner, setOwner] = useState({});
   const [userLikesIt, setUserLikesIt] = useState(false);
   const [setUserRatesIt] = useState(false);
@@ -170,7 +182,15 @@ const ListItem = ({singleMedia, navigation}) => {
         >
           {item.title}
         </Text>
-        <Image source={carrot} style={{width: 35, height: 35, justifyContent: 'center', marginLeft: '-5%'}}></Image>
+        <Image
+          source={carrot}
+          style={{
+            width: 35,
+            height: 35,
+            justifyContent: 'center',
+            marginLeft: '-5%',
+          }}
+        ></Image>
         <Text
           style={{
             color: '#221F2D',
@@ -198,10 +218,12 @@ const ListItem = ({singleMedia, navigation}) => {
         onBackdropPress={() => setVisibleModal(false)}
       >
         <Card disabled={true} style={{height: 520}}>
-          <Text style={{alignSelf: 'center'}}>
+          <Text style={{alignSelf: 'center', marginTop: '5%'}}>
             How many carrots would you give?
           </Text>
-          <Text style={{fontSize: 11, alignSelf: 'center'}}>Please notice you can only do this once.</Text>
+          <Text style={{fontSize: 11, alignSelf: 'center'}}>
+            Please notice you can only do this once.
+          </Text>
           <View style={styles.carrots}>
             <TouchableOpacity onPress={rateFile}>
               <Image source={carrot} style={styles.singleCarrot}></Image>
@@ -216,10 +238,51 @@ const ListItem = ({singleMedia, navigation}) => {
           <Text style={{alignSelf: 'center'}}>
             You gave a rating of {getRatingValue()} carrots
           </Text>
+          <Text style={{marginTop: '30%', alignSelf: 'center'}}>Select a category:</Text>
+          <Layout
+            style={{
+              flexDirection: 'row',
+              marginTop: '5%',
+              alignSelf: 'center',
+            }}
+          >
+            <CheckBox
+              style={{padding: 5}}
+              checked={glutenChecked}
+              onChange={(nextChecked) => setGlutenChecked(nextChecked)}
+            >
+              {`Gluten-free`}
+            </CheckBox>
+            <CheckBox
+              style={{padding: 5}}
+              checked={milkChecked}
+              onChange={(nextChecked) => setMilkChecked(nextChecked)}
+            >
+              {`Milk-free`}
+            </CheckBox>
+          </Layout>
+          <Layout style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <CheckBox
+              style={{padding: 5, marginLeft: 8}}
+              checked={vegeChecked}
+              onChange={(nextChecked) => setVegeChecked(nextChecked)}
+            >
+              {`Vegetarian`}
+            </CheckBox>
+            <CheckBox
+            fill='#000000'
+              style={{padding: 5, marginLeft: 5}}
+              checked={lactoChecked}
+              onChange={(nextChecked) => setLactoChecked(nextChecked)}
+            >
+              {`Lacto-ovo`}
+            </CheckBox>
+          </Layout>
+
           {item.user_id === user.user_id && (
             <Button
               style={{
-                marginTop: '100%',
+                marginTop: '40%',
                 backgroundColor: 'red',
                 borderColor: 'red',
               }}
@@ -276,7 +339,7 @@ const ListItem = ({singleMedia, navigation}) => {
         style={{width: '90%', height: '55%'}}
         onBackdropPress={() => setVisible(false)}
       >
-        <Card disabled={true} style={{height: 520}}>
+        <Card disabled={true} style={{height: 410}}>
           <Layout
             style={{
               width: 350,

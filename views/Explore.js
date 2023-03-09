@@ -13,6 +13,7 @@ import {
   ImageBackground,
   SafeAreaView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -24,7 +25,7 @@ const Explore = ({}) => {
         title={renderLogo}
         alignment="center"
       ></TopNavigation>
-      <Divider style={{backgroundColor: '#55b71c'}}/>
+      <Divider style={{backgroundColor: '#55b71c'}} />
       <Layout style={styles.container}>
         <ButtonGroup>
           <ImageBackground
@@ -61,6 +62,7 @@ const Explore = ({}) => {
           >
             <Text style={styles.text}>COMING SOON !</Text>
           </ImageBackground>
+
           <ImageBackground
             style={styles.image}
             source={require('../assets/B.png')}
