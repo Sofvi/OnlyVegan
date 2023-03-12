@@ -20,6 +20,8 @@ Frontend:
 - Profile
 - Modal details page
 
+(Explore page and categories still in development...)
+
 ## Contributors
 - [Suvi Laitinen](https://github.com/Sofvi)
 - [Nafisul Nazrul](https://github.com/nafitus)
