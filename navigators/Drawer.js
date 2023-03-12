@@ -1,4 +1,4 @@
-import {Avatar, Card, Divider, Drawer, DrawerItem, Icon} from '@ui-kitten/components';
+import {Avatar, Card, Drawer, DrawerItem, Icon} from '@ui-kitten/components';
 import React, {useContext, useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import {MainContext} from '../context/MainContext';

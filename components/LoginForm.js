@@ -22,7 +22,6 @@ const LoginForm = () => {
 
   const logIn = async (loginData) => {
     console.log('Login button pressed', loginData);
-    // const data = {username: 'ilkkamtk', password: 'q1w2e3r4'};
     try {
       const loginResult = await postLogin(loginData);
       console.log('logIn', loginResult);
@@ -31,7 +30,6 @@ const LoginForm = () => {
       setIsLoggedIn(true);
     } catch (error) {
       console.error('logIn', error);
-      // TODO: notify user about failed login attempt
     }
   };
 

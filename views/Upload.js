@@ -14,7 +14,6 @@ import {
   Keyboard,
   SafeAreaView,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import {useCallback, useContext, useRef, useState} from 'react';
@@ -26,7 +25,6 @@ import {appId} from '../utils/variables';
 import {Video} from 'expo-av';
 import {StyleSheet} from 'react-native';
 import {Image} from 'react-native';
-import carrot from '../assets/carrot.png';
 import {renderLogo} from './Home';
 
 const Upload = ({navigation}) => {
@@ -80,11 +78,7 @@ const Upload = ({navigation}) => {
           text: 'OK',
           onPress: () => {
             console.log('OK Pressed');
-            // update 'update' state in context
             setUpdate(!update);
-            // reset form
-            // reset();
-            // TODO: navigate to home
             navigation.navigate('Home');
           },
         },
@@ -132,7 +126,7 @@ const Upload = ({navigation}) => {
     }, [])
   );
 
-  console.log('tupe', mediafile.type);
+  console.log('type', mediafile.type);
 
   const MenuAction = () => (
     <TopNavigationAction

@@ -1,10 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../context/MainContext';
 import PropTypes from 'prop-types';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {uploadsUrl} from '../utils/variables';
-import {ListItem} from '@rneui/themed';
 import {
   Divider,
   Icon,
@@ -20,7 +18,7 @@ import {DrawerActions} from '@react-navigation/native';
 
 const Profile = ({navigation}) => {
   const {getFilesByTag} = useTag();
-  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
+  const {user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('');
 
   const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;

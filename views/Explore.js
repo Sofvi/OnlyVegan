@@ -1,7 +1,5 @@
-import {color} from '@rneui/base';
 import {
   Avatar,
-  Button,
   ButtonGroup,
   Divider,
   Layout,
@@ -9,11 +7,9 @@ import {
   TopNavigation,
 } from '@ui-kitten/components';
 import {
-  Image,
   ImageBackground,
   SafeAreaView,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 

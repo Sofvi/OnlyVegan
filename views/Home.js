@@ -2,11 +2,9 @@ import PropTypes from 'prop-types';
 import List from '../components/List';
 import {
   Avatar,
-  Button,
   Divider,
   Icon,
   Layout,
-  Text,
   TopNavigation,
   TopNavigationAction,
 } from '@ui-kitten/components';

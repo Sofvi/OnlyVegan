@@ -10,7 +10,7 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import {useContext} from 'react';
-import {Platform, SafeAreaView, TouchableOpacity} from 'react-native';
+import {Platform, SafeAreaView} from 'react-native';
 import {MainContext} from '../context/MainContext';
 import PropTypes from 'prop-types';
 import {renderLogo} from './Home';
@@ -18,7 +18,7 @@ import {renderLogo} from './Home';
 const MenuIcon = (props) => <Icon {...props} name="menu-outline" />;
 
 const Settings = ({navigation}) => {
-  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
   const MenuAction = () => (
     <TopNavigationAction
       icon={MenuIcon}

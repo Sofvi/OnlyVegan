@@ -1,15 +1,13 @@
 import React from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Input} from '@rneui/themed';
+import {Input} from '@rneui/themed';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {Button, Layout, Text} from '@ui-kitten/components';
 import OV_Logo from '../assets/OV_Logo2.png';
 import {Image} from 'react-native';
 
 const RegisterForm = () => {
-  // const {setIsLoggedIn} = useContext(MainContext);
-  // const {postLogin} = useAuthentication();
   const {postUser, checkUsername} = useUser();
   const {
     control,
@@ -35,7 +33,6 @@ const RegisterForm = () => {
       console.log('registeration result', registerResult);
     } catch (error) {
       console.error('register', error);
-      // TODO: notify user about failed registeration attempt
     }
   };
 
